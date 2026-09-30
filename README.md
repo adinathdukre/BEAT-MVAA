@@ -184,11 +184,10 @@ configs/    OmegaConf YAML configs (paths, common, task1-3)
 ## Citation
 
 ```bibtex
-@inproceedings{rege2026beat,
-  title     = {BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation},
-  author    = {Rege, Atharva Atul and Dukre, Adinath Madhavrao and Shah, Sarth Santosh and Razzak, Imran},
-  booktitle = {MICCAI 2026 Workshops},
-  year      = {2026}
+@inproceedings{regebeat,
+  title={BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation},
+  author={Rege, Atharva Atul and Dukre, Adinath Madhavrao and Shah, Sarth Santosh and Razzak, Imran},
+  booktitle={The 1st MICCAI Workshop on Medical World Models}
 }
 ```
 
