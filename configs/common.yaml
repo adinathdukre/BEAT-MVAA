@@ -1,0 +1,19 @@
+seed: 1337
+deterministic: true
+amp: true
+channels_last: false
+
+metric:
+  hd_ref: 20.0
+  asd_ref: 3.0
+  ckpt_select: {dsc: 0.6, hd: 0.2, asd: 0.2}
+
+latency:
+  per_case_limit_s: 600.0
+  job_limit_s: 43200
+  target_s: 400.0
+
+logging:
+  log_every_n_steps: 20
+  val_every_n_epochs: 1
+  save_top_k: 2

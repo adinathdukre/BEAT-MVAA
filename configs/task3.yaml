@@ -1,0 +1,113 @@
+defaults:
+  - paths
+  - common
+  - _self_
+
+task: task3
+modality: video
+num_classes: 2
+target_label: 10
+
+data:
+  img_size: [448, 800]
+  frame_regex: '^(?P<prefix>.+)_(?P<idx>\d{6})\.png$'
+  split_by_video: true
+  val_frac: 0.2
+  holdout_video: null
+  train_all_labeled: false
+  exclude_frames: [REC_20250322_101917_746A_000130]
+  unlabeled_pool: ${paths.images_dir}
+
+model:
+  arch: unetplusplus
+  encoder: efficientnet-b4
+  encoder_weights: imagenet
+  imagenet_norm: true
+  in_channels: 3
+  aux_sdf_head: false
+  presence_head:
+    enabled: false
+    dropout: 0.2
+    pooling: gap
+    feature_index: -1
+    hidden_channels: 64
+    topk_fraction: 0.01
+    dense_weight: 0.0
+    dense_pos_weight: null
+    dense_dice_weight: 1.0
+    temporal_rank: false
+
+train:
+  epochs: 150
+  scheduler_epochs: null
+  batch_size: 6
+  lr: 1.0e-3
+  optimizer: adamw
+  weight_decay: 1.0e-4
+  selection_metric: dice
+  num_workers: 8
+  target_positive_fraction: null
+  ema_teacher:
+    enabled: false
+    decay: 0.999
+    use_for_validation: true
+  heavy_aug: true
+  surg_nuisance: true
+  surg_nuisance_p: 0.3
+  unimatch_v2: true
+  conf_threshold: 0.95
+  boundary_conf_threshold: 0.97
+  boundary_band: 2
+  swad:
+    enabled: false
+    start_frac: 0.6
+  randconv:
+    enabled: false
+    p: 0.5
+    kernel_sizes: [1, 3, 5, 7]
+    sup_weight: 1.0
+    cons_weight: 1.0
+  gin:
+    enabled: false
+    sup_weight: 1.0
+    cons_weight: 1.0
+  freematch:
+    enabled: false
+    momentum: 0.999
+    floor: 0.5
+
+loss:
+  dice: 1.0
+  focal: 1.0
+  boundary: {weight: 1.0, rampup_epochs: 20}
+  cbdice: 0.2
+  edge_consistency: 0.2
+  hd_dt: 0.0
+  tversky: 0.0
+  tversky_alpha: 0.3
+  tversky_beta: 0.7
+  shape_prior: 0.0
+  mbls: 0.0
+  mbls_margin: 10.0
+  farfp: 0.0
+  farfp_power: 2.0
+  farfp_norm: 64.0
+
+predict:
+  tta_render: false
+  primary_render_weight: 0.50
+  threshold: 0.35
+  layered_threshold: 0.35
+  layered_recovery_threshold: 0.10
+  resize_probability: false
+  lcc: false
+  min_area: 0
+  min_component: 0
+  temporal_ema: 0.0
+  tta_flips: [[]]
+  ema_max_gap: 2
+  closing_radius: 1
+  shape_prior:
+    enabled: false
+    ckpt: ${paths.runs_dir}/shape_prior/shape_prior_2d.pt
+    size: [128, 128]

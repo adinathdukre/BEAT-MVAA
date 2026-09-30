@@ -1,0 +1,12 @@
+data_root: ${oc.env:MVAA_DATA_ROOT,/path/to/MVAA}
+
+images_dir: ${paths.data_root}/images
+reference_data: ${paths.data_root}/reference_data
+t1_root: ${paths.reference_data}/t1_ct
+t2_root: ${paths.reference_data}/t2_tee
+t3_root: ${paths.reference_data}/t3_vid
+
+runs_dir: ${oc.env:MVAA_RUNS_DIR,/path/to/runs}
+submission_dir: ${oc.env:MVAA_SUBMISSION_DIR,${paths.runs_dir}/submission}
+pseudolabels_dir: ${paths.runs_dir}/pseudolabels
+checkpoints_dir: ${oc.env:MVAA_CKPT_DIR,/path/to/pretrained}

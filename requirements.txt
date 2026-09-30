@@ -1,0 +1,14 @@
+torch>=2.5
+torchvision
+monai==1.4.0
+nibabel==5.4.2
+medim==0.1.2
+numpy==1.26.4
+scipy
+scikit-image
+opencv-python-headless
+connected-components-3d==4.0.0
+segmentation-models-pytorch==0.5.0
+timm==1.0.22
+albumentations==2.0.8
+omegaconf==2.3.1

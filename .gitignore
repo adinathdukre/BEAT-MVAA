@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+
+weights/
+runs/
+output/
+*.pt
+*.pth
+*.model
+*.nii
+*.nii.gz
+*.zip

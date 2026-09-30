@@ -1,0 +1,130 @@
+defaults:
+  - paths
+  - common
+  - _self_
+
+task: task1
+modality: ct
+num_classes: 2
+label_suffix: "-seg"
+
+data:
+  spacing: [0.357, 0.357, 0.5]
+  hu_clip: [-99, 646]
+  patch_size: [128, 128, 128]
+  cache_rate: 0.0
+  val_ratio: 0.1
+  val_count: 3
+  train_eval_count: 3
+  use_pseudolabels: true
+  labeled_fraction: 0.5
+  pseudolabel_dir: ${paths.pseudolabels_dir}/t1_ct_r2_hq500
+
+model:
+  name: stunet
+  stunet_size: B
+  in_channels: 1
+  stunet_ckpt: ${paths.checkpoints_dir}/STU-Net/base_ep4k.model
+  deep_supervision: true
+
+teacher:
+  name: stunet
+  stunet_size: H
+  stunet_ckpt: ${paths.checkpoints_dir}/STU-Net/huge_ep4k.model
+  patch_size: [128, 128, 128]
+  grad_checkpointing: true
+  admt: true
+  distill_ct: true
+  substrate: bcp
+  abd_grid: 4
+  abd_frac: 0.5
+  synmatch: false
+  consistency_weight: 1.0
+  val_every: 25
+
+train:
+  epochs: 300
+  early_stop_patience: 25
+  early_stop_min_epoch: 55
+  ckpt_select_min_epoch: 5
+  ckpt_smooth_k: 3
+  ckpt_keep_topk: 5
+  select_metric: dice
+  steps_per_epoch: 0
+  batch_size: 2
+  grad_checkpointing: false
+  lr: 1.0e-3
+  optimizer: sgd
+  backbone_lr_scale: 1.0
+  freeze_backbone: false
+  weight_decay: 1.0e-4
+  momentum: 0.99
+  grad_clip: 12.0
+  num_workers: 8
+  oversample_fg: 0.6
+  heavy_aug: true
+  spacing_aug: false
+  distill_ctfm: false
+  distill_wholebody: false
+  distill_weight: 0.5
+  distill_every: 2
+  fconsist:
+    enabled: false
+    stage: 1
+    weight: 1.0
+    rampup_epochs: 40
+    fbp_alpha: [-0.6, 1.2]
+    fbp_beta: [1.5, 3.0]
+
+distill:
+  ctfm_model_id: project-lighter/ct_fm_feature_extractor
+  whole_body_seg_id: project-lighter/whole_body_segmentation
+
+loss:
+  dice_ce: 1.0
+  boundary: {weight: 0.4, rampup_epochs: 50}
+  skeleton_recall: 0.2
+  cbdice: 0.2
+  edge_consistency: 0.2
+  shape_prior: 0.0
+  ignore_index: -1
+
+pseudolabel:
+  conf_threshold: 0.9
+  boundary_conf_threshold: 0.95
+  boundary_band: 2
+  min_fg_voxels: 50
+  unlabeled_dir: ${paths.t1_root}/train/unlabeled
+  out_dir: ${paths.pseudolabels_dir}/t1_ct
+
+predict:
+  sw_overlap: 0.25
+  sw_batch_size: 1
+  sw_mode: gaussian
+  tta_flip_axes: []
+  tta_full_combos: false
+  lcc: true
+  lcc_min_ratio: 0.0
+  closing_radius: 1
+  spacing_rescue:
+    enabled: false
+    plausible_mm3: [1600.0, 5000.0]
+    agreement_max: 0.5
+    catastrophic_mm3: 15000.0
+  spacing_guard:
+    enabled: false
+    in_plane_ok: [0.28, 0.52]
+    slice_ok: [0.40, 0.70]
+    target_spacing: [0.357, 0.357, 0.5]
+    roi_mm: [80.0, 80.0, 72.0]
+    max_voxels: 12000000
+  canonical_fusion:
+    enabled: false
+    min_slice_spacing: 0.55
+    target_spacing: [0.357, 0.357, 0.5]
+    roi: [128, 128, 128]
+    threshold: 0.525
+  shape_prior:
+    enabled: false
+    ckpt: ${paths.runs_dir}/shape_prior/shape_prior_3d.pt
+    size: [64, 64, 64]

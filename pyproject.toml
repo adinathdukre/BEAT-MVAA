@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "beat-mvaa"
+version = "1.0.0"
+description = "BEAT: multimodal mitral valve segmentation for the MICCAI 2026 MVAA challenge"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { file = "LICENSE" }
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+teacher = ["lighter-zoo"]
+
+[tool.setuptools]
+packages = ["common", "task1", "task2", "task3", "scripts"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }

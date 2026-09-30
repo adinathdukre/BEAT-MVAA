@@ -1,0 +1,68 @@
+defaults:
+  - paths
+  - common
+  - _self_
+
+task: task2
+modality: tee_us
+num_classes: 3
+
+logging:
+  val_every_n_epochs: 5
+
+data:
+  spacing: [0.377, 0.540, 0.237]
+  intensity_norm: scale255
+  patch_size: [128, 128, 128]
+  cache_rate: 0.5
+  val_count: 20
+  train_eval_count: 5
+
+model:
+  name: stunet
+  stunet_size: B
+  in_channels: 1
+  stunet_ckpt: ${paths.checkpoints_dir}/STU-Net/base_ep4k.model
+  deep_supervision: true
+
+train:
+  epochs: 400
+  early_stop_patience: 0
+  early_stop_min_epoch: 150
+  batch_size: 2
+  grad_checkpointing: false
+  lr: 1.0e-3
+  optimizer: sgd
+  weight_decay: 3.0e-5
+  momentum: 0.99
+  grad_clip: 12.0
+  num_workers: 8
+  oversample_fg: 0.7
+  speckle_aug: true
+
+loss:
+  dice_ce: 1.0
+  boundary: {weight: 0.0, rampup_epochs: 50}
+  generalized_surface: 0.5
+  cldice: 0.2
+  cbdice: 0.0
+  skeleton_recall: 0.2
+  wavelet_hf: 0.0
+  edge_consistency: 0.0
+  shape_prior: 0.0
+
+ckpt_select: ${metric.ckpt_select}
+
+predict:
+  sw_overlap: 0.70
+  sw_batch_size: 1
+  sw_mode: gaussian
+  tta_flip_axes: []
+  lcc: true
+  lcc_min_ratio: 0.15
+  closing_radius: 1
+  class_weights: [1.0, 1.4, 1.4]
+  shape_prior:
+    enabled: false
+    ckpt: ${paths.runs_dir}/shape_prior/shape_prior_3d.pt
+    size: [64, 64, 64]
