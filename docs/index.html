@@ -4,11 +4,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation</title>
-<meta name="description" content="Official code for BEAT, our solution to the MICCAI 2026 MVAA challenge (Mitral Valve Multimodal Anatomical Analysis). One framework segments the mitral valve in three modalities:" />
+<meta name="description" content="Mitral valve repair is planned and guided by three very different images of the same anatomy: preoperative cardiac computed tomography (CT), intraoperative 3D transesophageal echocardiography (3D TEE), and the surgeon’s view of the valve. Delineating the valve consistently in all three is the percep" />
 <meta name="theme-color" content="#147b82" />
 <meta property="og:title" content="BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation" />
-<meta property="og:description" content="Official code for BEAT, our solution to the MICCAI 2026 MVAA challenge (Mitral Valve Multimodal Anatomical Analysis). One framework segments the mitral valve in three modalities:" />
+<meta property="og:description" content="Mitral valve repair is planned and guided by three very different images of the same anatomy: preoperative cardiac computed tomography (CT), intraoperative 3D transesophageal echocardiography (3D TEE), and the surgeon’s view of the valve. Delineating the valve consistently in all three is the percep" />
 <meta property="og:type" content="website" />
+<meta property="og:image" content="assets/paper/fig1.png" />
 <meta name="citation_title" content="BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation" />
 <link rel="icon" href="https://raw.githubusercontent.com/genmilab/VGS-Decoding/main/docs/assets/genmilab-logo.png" />
 <link rel="stylesheet" href="project.css" />
@@ -21,7 +22,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="nav-wrap">
 <a class="brand" href="#top">BEAT</a>
-<nav aria-label="Main navigation"><a href="#-method">Method</a><a href="#-results-validation">Results (validation)</a><a href="#️-installation">Installation</a><a href="#-checkpoints">Checkpoints</a><a href="#-inference">Inference</a><a href="#-citation">Citation</a></nav>
+<nav aria-label="Main navigation"><a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#results">Results</a><a href="#code">Code</a><a href="#citation">BibTeX</a></nav>
 <a class="nav-code" href="https://github.com/adinathdukre/BEAT-MVAA">GitHub <span aria-hidden="true">↗</span></a>
 </div></header>
 <main id="main">
@@ -35,55 +36,12 @@
 
 
 <p class="hero-description">One recipe, three modalities.<br />Boundary losses at train time only.<br />Plain segmentation CNNs at deployment.</p>
-<div class="resource-links"><a class="button button-primary" href="https://openreview.net/forum?id=yRMVmTyr3S"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8M8 17h6"/></svg>Paper</a><a class="button button-secondary" href="https://github.com/adinathdukre/BEAT-MVAA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-12-2 14"/></svg>Code</a><a class="button button-secondary" href="https://huggingface.co/adidukre/BEAT-MVAA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4v10l-8 4-8-4zM4 7l8 4 8-4M12 11v10"/></svg>Weights <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="#-results-validation">Results <span aria-hidden="true">↓</span></a><a class="button button-secondary" href="#-citation">Citation <span aria-hidden="true">↓</span></a></div>
+<div class="resource-links"><a class="button button-primary" href="https://openreview.net/forum?id=yRMVmTyr3S"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h9l5 5v13H5zM14 3v6h5M8 13h8M8 17h6"/></svg>Paper</a><a class="button button-secondary" href="https://github.com/adinathdukre/BEAT-MVAA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-12-2 14"/></svg>Code</a><a class="button button-secondary" href="https://huggingface.co/adidukre/BEAT-MVAA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l8-4 8 4v10l-8 4-8-4zM4 7l8 4 8-4M12 11v10"/></svg>Weights <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="#results">Results <span aria-hidden="true">↓</span></a><a class="button button-secondary" href="#citation">BibTeX <span aria-hidden="true">↓</span></a></div>
 <div class="hero-meta"><span>MVAA 2026 MICCAI Challenge</span><span>MICCAI 2026 MWM Workshop</span></div>
 </section>
-<section class="section container narrow page-section" id="-news"><p class="section-kicker">01 / NEWS</p><h2>News</h2>
-<ul>
-<li><strong>[30 Sep 2026]</strong> 🚀 Code, Docker image and weights for all three MVAA tasks are released.</li>
-<li><strong>[03 Aug 2026]</strong> 🎉 Our BEAT paper is <strong>accepted</strong> at the 1st MICCAI Workshop on Medical World Models (MWM 2026) and published on <a href="https://openreview.net/forum?id=yRMVmTyr3S">OpenReview</a>.</li>
-</ul>
-</section>
-<section class="section container narrow page-section" id="overview"><p class="section-kicker">02 / OVERVIEW</p><h2>Overview</h2>
-<p>Official code for <strong>BEAT</strong>, our solution to the <strong>MICCAI 2026 MVAA challenge</strong> (Mitral Valve Multimodal Anatomical Analysis). One framework segments the mitral valve in three modalities:</p>
-<div class="table-scroll" tabindex="0"><table class="paper-table">
-<thead>
-<tr>
-<th>Task</th>
-<th>Modality</th>
-<th>Supervision</th>
-<th>Model</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>T1</strong></td>
-<td>Cardiac CT (3D)</td>
-<td>Semi-supervised</td>
-<td>STU-Net-L / STU-Net-B ensemble</td>
-</tr>
-<tr>
-<td><strong>T2</strong></td>
-<td>3D TEE ultrasound</td>
-<td>Fully supervised</td>
-<td>STU-Net-B, 3 seeds</td>
-</tr>
-<tr>
-<td><strong>T3</strong></td>
-<td>Surgical video frames (2D)</td>
-<td>Semi-supervised</td>
-<td>UNet++ / EfficientNet-B4 cascade</td>
-</tr>
-</tbody>
-</table></div>
-<p align="center">
-<img src="https://raw.githubusercontent.com/adinathdukre/BEAT-MVAA/main/docs/assets/fig1_overview.jpg" alt="BEAT overview" width="100%"/>
-<br/>
-<em><b>Fig. 1.</b> The BEAT recipe and its three instantiations. A pretrained backbone is supervised with train-only boundary losses under augmentation matched to each modality; dashed components are used only during training.</em>
-</p>
-</section>
-<section class="section container narrow page-section" id="-method"><p class="section-kicker">03 / METHOD</p><h2>Method</h2>
-<ul>
+<section class="section abstract-section" id="abstract"><div class="container narrow"><p class="section-kicker">01 / ABSTRACT</p><h2>Abstract</h2><div class="abstract-text"><p>Mitral valve repair is planned and guided by three very different images of the same anatomy: preoperative cardiac computed tomography (CT), intraoperative 3D transesophageal echocardiography (3D TEE), and the surgeon’s view of the valve. Delineating the valve consistently in all three is the perception layer on which a patient-specific valve model rests, yet annotations are scarce and the gap between modalities is wide. We introduce <strong>BEAT</strong>, a boundary-aware efficient anatomy-transfer recipe instantiated once per modality: a CT-pretrained STU-Net for the volumetric tasks and an ImageNet-pretrained EfficientNet for video, train-only distance and topology losses, augmentation matched to the physical shift, and every expensive component confined to training, leaving a single-pass model that segments a CT case in 0.34 s with 1.4 GiB. On the MICCAI 2026 MVAA challenge, BEAT achieves Dice 0.85 on CT, 0.83 on 3D TEE, and 0.77 on surgical video. Ablations read against fold and seed variation show what carries each modality: transfer on video, physics-matched augmentation on ultrasound, and a post-processing rule that never erases a weak prediction.</p></div></div></section>
+<section class="figure-section container" id="overview-figure"><figure class="overview-figure"><img src="assets/paper/fig1.png" alt="Figure 1" loading="lazy" /><figcaption><strong>Figure 1.</strong> The BEAT recipe and its three instantiations. A pretrained backbone (STU-Net-B for the volumetric tasks, EfficientNet-B4 with a UNet++ decoder for video) is supervised with train-only boundary losses under augmentation matched to each modality. Every dashed block is removed for deployment.</figcaption></figure></section>
+<section class="section container narrow page-section" id="method"><p class="section-kicker">02 / METHOD</p><h2>Method</h2><ul>
 <li><strong>T1 (CT).</strong> STU-Net (pretrained on TotalSegmentator) is fine-tuned with CT intensities clipped to
   the foreground window used during STU-Net pretraining (<code>[-99, 646]</code> HU). Three fold teachers label
   the unlabeled CT pool. Their pseudo-labels are confidence-gated (stricter near the boundary), and the
@@ -98,10 +56,9 @@
   on the unlabeled video pool. Inference is a three-model threshold cascade with no TTA.</li>
 </ul>
 <div class="callout callout-note"><strong>Note</strong><p>All boundary and topology terms are training-only losses, so the deployed networks are plain
-segmentation CNNs.</p></div>
-</section>
-<section class="section container narrow page-section" id="-results-validation"><p class="section-kicker">04 / RESULTS (VALIDATION)</p><h2>Results (validation)</h2>
-<div align="center">
+segmentation CNNs.</p></div></section>
+<section class="section container page-section results-wide" id="results"><div class="narrow"><p class="section-kicker">03 / RESULTS</p><h2>Results from the paper</h2><p class="section-intro">Tables and figures as they appear in the paper.</p></div><figure class="paper-table-figure"><figcaption><strong>Table 1.</strong> BEAT validation metrics and deployed-model cost. Accuracy is the validation path (three models per task, folds on Task 1 and seeds on Tasks 2 and 3, with mirror TTA on the volumetric tasks); cost is the deployed single-pass bfloat16 network, as multiply-accumulates per <span class="math inline">128^3</span> window (<span class="math inline">448{\times}800</span> frame on Task 3) with mean wall clock and peak memory per case on one RTX PRO 6000. Hausdorff is the maximum bidirectional surface distance and Task 2 averages its two classes. Tasks 1 and 2 share a backbone, so they differ in wall clock only because a TEE case tiles into more windows.</figcaption><img src="assets/paper/tab1.png" alt="Table 1" loading="lazy" style="width:min(100%,900px)" /></figure><figure class="paper-table-figure"><figcaption><strong>Table 2.</strong> Ablations, one component per row. The Task 1 ladder is out-of-fold over the 27 labeled CT volumes; in the single-removal block only the video initialization separates from its noise floor. The Task 3 post-processing rows are a single seed and so sit just below the three-seed entry of Table 1.</figcaption><img src="assets/paper/tab2.png" alt="Table 2" loading="lazy" style="width:min(100%,849px)" /></figure><figure class="paper-figure"><img src="assets/paper/fig2.png" alt="Figure 2" loading="lazy" /><figcaption><strong>Figure 2.</strong> (a) The score of Table 1 split into the three terms of for each task, showing that the boundary pair, not region accuracy, separates them. (b) Task 1 per-case out-of-fold results over the 27 labeled CT volumes on the deployed inference path.</figcaption></figure></section>
+<section class="section container narrow page-section" id="more-results"><p class="section-kicker">04 / MORE RESULTS</p><h2>More from the code release</h2><details><summary>Results (validation)</summary><div align="center">
 <div class="table-scroll" tabindex="0"><table class="paper-table">
 <thead>
 <tr>
@@ -137,19 +94,14 @@ segmentation CNNs.</p></div>
 <img src="https://raw.githubusercontent.com/adinathdukre/BEAT-MVAA/main/docs/assets/fig2_results.png" alt="Metric terms per task and Task 1 per-case scatter" width="100%"/>
 <br/>
 <em><b>Fig. 2.</b> (a) The validation results split into the terms of the challenge score. (b) Task 1 per-case out-of-fold Dice against max HD, with marker area growing with ASD.</em>
-</p>
-</section>
-<section class="section container narrow page-section" id="️-installation"><p class="section-kicker">05 / INSTALLATION</p><h2>Installation</h2>
-<pre><code class="language-bash">git clone https://github.com/adinathdukre/BEAT-MVAA.git
+</p></details></section>
+<section class="section container narrow page-section" id="code"><p class="section-kicker">05 / CODE</p><h2>Code and usage</h2><details open><summary>Installation</summary><pre><code class="language-bash">git clone https://github.com/adinathdukre/BEAT-MVAA.git
 cd BEAT-MVAA
 conda create -n beat python=3.10 -y
 conda activate beat
 pip install -r requirements.txt
 pip install -e .
-</code></pre>
-</section>
-<section class="section container narrow page-section" id="-checkpoints"><p class="section-kicker">06 / CHECKPOINTS</p><h2>Checkpoints</h2>
-<p>Download the trained weights into <code>weights/</code>:</p>
+</code></pre></details><details><summary>Checkpoints</summary><p>Download the trained weights into <code>weights/</code>:</p>
 <pre><code class="language-bash">pip install -U &quot;huggingface_hub[cli]&quot;
 huggingface-cli download adidukre/BEAT-MVAA --local-dir weights
 </code></pre>
@@ -166,10 +118,7 @@ huggingface-cli download adidukre/BEAT-MVAA --local-dir weights
 <p><code>large_ep4k.model</code>, <code>huge_ep4k.model</code>) from <a href="https://github.com/uni-medical/STU-Net">uni-medical/STU-Net</a>,</p>
 <blockquote>
 <p>placed under <code>$MVAA_CKPT_DIR/STU-Net/</code>.</p>
-</blockquote>
-</section>
-<section class="section container narrow page-section" id="️-data"><p class="section-kicker">07 / DATA</p><h2>Data</h2>
-<p>Get the MVAA dataset from the challenge organizers
+</blockquote></details><details><summary>Data</summary><p>Get the MVAA dataset from the challenge organizers
 (<a href="https://www.codabench.org/competitions/15662/">Codabench 15662</a>); it is not redistributed here.</p>
 <pre><code class="language-text">/path/to/MVAA/
 ├── images/                          # unlabeled surgical video pool (T3)
@@ -182,10 +131,7 @@ huggingface-cli download adidukre/BEAT-MVAA --local-dir weights
 export MVAA_RUNS_DIR=/path/to/runs          # training outputs
 export MVAA_CKPT_DIR=/path/to/pretrained    # STU-Net base weights (training only)
 </code></pre>
-<div class="callout callout-tip"><strong>Tip</strong><p>Any config value can be overridden from the command line as <code>key=value</code> (OmegaConf dotlist).</p></div>
-</section>
-<section class="section container narrow page-section" id="-inference"><p class="section-kicker">08 / INFERENCE</p><h2>Inference</h2>
-<p>The entry point runs all three tasks and writes the official submission layout
+<div class="callout callout-tip"><strong>Tip</strong><p>Any config value can be overridden from the command line as <code>key=value</code> (OmegaConf dotlist).</p></div></details><details><summary>Inference</summary><p>The entry point runs all three tasks and writes the official submission layout
 (<code>t1_ct/</code>, <code>t2_tee/</code>, <code>t3_vid/</code>, each with a <code>task{N}_predictions.json</code>).</p>
 <pre><code class="language-bash">MVAA_APP_DIR=$PWD \
 MVAA_WEIGHTS_DIR=$PWD/weights \
@@ -206,10 +152,7 @@ docker run --rm --gpus all --network none \
 <pre><code class="language-bash">python -m task1.predict --ckpt weights/task1/B_f0.pt --split val --out /path/to/pred_t1 model.stunet_size=B
 python -m task2.predict --ckpt weights/task2/s42.pt --split val --out /path/to/pred_t2
 python -m task3.predict --ckpt weights/task3/s42.pt --split val --out /path/to/pred_t3 model.encoder_weights=null
-</code></pre>
-</section>
-<section class="section container narrow page-section" id="️-training"><p class="section-kicker">09 / TRAINING</p><h2>Training</h2>
-<p>T1 and T2 use <code>torchrun</code> (DDP/FSDP). T3 trains on one GPU.</p>
+</code></pre></details><details><summary>Training</summary><p>T1 and T2 use <code>torchrun</code> (DDP/FSDP). T3 trains on one GPU.</p>
 <details open="open">
 <summary><strong>Task 1 (CT, semi-supervised)</strong></summary>
 <p>The teacher distills features from CT-FM, which needs <code>pip install lighter-zoo</code> (weights are fetched from
@@ -242,38 +185,28 @@ torchrun --standalone --nproc_per_node=4 -m task1.train_student --exp L_f0 \
 python -m task3.train_student --exp guard_e37 seed=42 train.epochs=40 data.holdout_video=675A
 </code></pre>
 </details>
-<p>Each run writes <code>config.yaml</code>, logs and checkpoints to <code>$MVAA_RUNS_DIR/&lt;task&gt;/&lt;exp&gt;_&lt;git-sha&gt;/</code>. Copy the selected <code>best.pt</code> files into <code>weights/&lt;task&gt;/</code> to deploy.</p>
-</section>
-<section class="section container narrow page-section" id="-repository-structure"><p class="section-kicker">10 / REPOSITORY STRUCTURE</p><h2>Repository Structure</h2>
-<pre><code class="language-text">BEAT-MVAA/
+<p>Each run writes <code>config.yaml</code>, logs and checkpoints to <code>$MVAA_RUNS_DIR/&lt;task&gt;/&lt;exp&gt;_&lt;git-sha&gt;/</code>. Copy the selected <code>best.pt</code> files into <code>weights/&lt;task&gt;/</code> to deploy.</p></details><details><summary>Repository Structure</summary><pre><code class="language-text">BEAT-MVAA/
 ├── common/     # losses, metrics, post-processing, sliding window, I/O, model registry
 ├── task1/      # CT: teacher, pseudo-labels, student, predict
 ├── task2/      # 3D TEE: train, predict
 ├── task3/      # video: semi-supervised student, predict
 ├── scripts/    # ensemble inference (run_inference.py) and per-task ensemble predictors
 └── configs/    # OmegaConf YAML configs (paths, common, task1-3)
-</code></pre>
-</section>
-<section class="section container narrow page-section" id="-acknowledgments"><p class="section-kicker">11 / ACKNOWLEDGMENTS</p><h2>Acknowledgments</h2>
-<p>This work builds on <a href="https://github.com/uni-medical/STU-Net">STU-Net</a> / <a href="https://github.com/uni-medical/MedIM">MedIM</a>,
-<a href="https://github.com/qubvel-org/segmentation_models.pytorch">segmentation-models-pytorch</a>,
-<a href="https://github.com/Project-MONAI/MONAI">MONAI</a> and
-<a href="https://github.com/LiheYoung/UniMatch-V2">UniMatch-V2</a>. We thank the MVAA 2026 organizers for the data and the evaluation.</p>
-</section>
-<section class="section container narrow page-section" id="-contact"><p class="section-kicker">12 / CONTACT</p><h2>Contact</h2>
-<p>For questions or collaboration, please open an <a href="https://github.com/adinathdukre/BEAT-MVAA/issues">issue</a> or reach out to <a href="https://github.com/adinathdukre">Adinath Madhavrao Dukre</a>.</p>
-</section>
-<section class="section container narrow page-section" id="-license"><p class="section-kicker">13 / LICENSE</p><h2>License</h2>
-<p>Code is released under the MIT License. The MVAA data and third-party pretrained weights keep their own licenses.</p>
-<div class="callout callout-important"><strong>Important</strong><p>BEAT is intended for research only. It is not approved for clinical use and must not inform any diagnostic or treatment decision.</p></div>
-</section>
-<section class="section citation-section" id="-citation"><div class="container narrow"><p class="section-kicker">14 / CITATION</p><div class="citation-heading"><h2>Cite this work.</h2><button class="copy-button light-copy" data-copy="bibtex" type="button">Copy BibTeX</button></div><p>If you find our paper and code useful in your research, please cite:</p><pre class="bibtex"><code id="bibtex">@inproceedings{regebeat,
+</code></pre></details></section>
+<section class="section citation-section" id="citation"><div class="container narrow"><p class="section-kicker">06 / CITATION</p><div class="citation-heading"><h2>BibTeX</h2><button class="copy-button light-copy" data-copy="bibtex" type="button">Copy BibTeX</button></div><pre class="bibtex"><code id="bibtex">@inproceedings{regebeat,
   title={BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation},
   author={Rege, Atharva Atul and Dukre, Adinath Madhavrao and Shah, Sarth Santosh and Razzak, Imran},
   booktitle={The 1st MICCAI Workshop on Medical World Models},
   year={2026},
   url={https://openreview.net/forum?id=yRMVmTyr3S}
 }</code></pre></div></section>
+<section class="section container narrow page-section small-section" id="acknowledgments"><h3>Acknowledgments</h3><p>This work builds on <a href="https://github.com/uni-medical/STU-Net">STU-Net</a> / <a href="https://github.com/uni-medical/MedIM">MedIM</a>,
+<a href="https://github.com/qubvel-org/segmentation_models.pytorch">segmentation-models-pytorch</a>,
+<a href="https://github.com/Project-MONAI/MONAI">MONAI</a> and
+<a href="https://github.com/LiheYoung/UniMatch-V2">UniMatch-V2</a>. We thank the MVAA 2026 organizers for the data and the evaluation.</p></section>
+<section class="section container narrow page-section small-section" id="contact"><h3>Contact</h3><p>For questions or collaboration, please open an <a href="https://github.com/adinathdukre/BEAT-MVAA/issues">issue</a> or reach out to <a href="https://github.com/adinathdukre">Adinath Madhavrao Dukre</a>.</p></section>
+<section class="section container narrow page-section small-section" id="license"><h3>License</h3><p>Code is released under the MIT License. The MVAA data and third-party pretrained weights keep their own licenses.</p>
+<div class="callout callout-important"><strong>Important</strong><p>BEAT is intended for research only. It is not approved for clinical use and must not inform any diagnostic or treatment decision.</p></div></section>
 </main>
 <footer class="site-footer"><div class="container">
 <a class="lab-footer" href="https://github.com/genmilab" aria-label="GenMI-Lab on GitHub">

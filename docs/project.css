@@ -1982,3 +1982,21 @@ pre.mermaid { background: var(--paper) !important; color: var(--ink) !important;
 .page-section div[align="center"], .page-section p[align="center"] { text-align: center; }
 .authors > span { white-space: nowrap; }
 .authors > span sup { margin-left: 2px; }
+
+/* ---- LSTA-style paper sections ---- */
+.abstract-section { background: var(--wash); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 72px 0 64px; }
+.abstract-section h2 { margin-bottom: 18px; }
+.abstract-text p { font-size: 16px; line-height: 1.8; color: var(--ink); text-align: justify; hyphens: auto; }
+#overview-figure { padding-top: 56px; }
+.overview-figure img, .paper-figure img, .paper-table-figure img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.paper-figure, .paper-table-figure { max-width: 1080px; margin: 44px auto 0; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px 18px; box-shadow: 0 1px 2px rgba(20,40,50,.04); }
+.paper-table-figure img { max-width: 980px; margin: 14px auto 4px; border-radius: 0; }
+.paper-figure figcaption, .paper-table-figure figcaption, .overview-figure figcaption { font-size: 13.5px; line-height: 1.65; color: var(--muted); margin-top: 12px; }
+.paper-figure figcaption strong, .paper-table-figure figcaption strong, .overview-figure figcaption strong { color: var(--teal-dark); }
+.paper-table-figure figcaption { margin-top: 0; }
+.results-wide { padding-bottom: 24px; }
+.results-wide .narrow { margin-bottom: 4px; }
+.small-section { padding-top: 28px !important; }
+.small-section h3 { font-size: 15px; letter-spacing: .02em; color: var(--teal-dark); }
+#code details, #more-results details { margin: 12px 0; }
+@media (max-width: 680px) { .paper-figure, .paper-table-figure { padding: 14px; margin-top: 28px; } .abstract-text p { text-align: left; } }

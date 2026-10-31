@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   if (window.renderMathInElement) {
     renderMathInElement(document.getElementById("main"), {
-      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }],
+      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }, { left: "$", right: "$", display: false }],
       ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
     });
   }
