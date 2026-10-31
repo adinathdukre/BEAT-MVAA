@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   });
+  if (window.katex) {
+    document.querySelectorAll("span.math").forEach(function (el) {
+      try { katex.render(el.textContent, el, { displayMode: el.classList.contains("display"), throwOnError: false }); } catch (e) {}
+    });
+  }
   if (window.renderMathInElement) {
     renderMathInElement(document.getElementById("main"), {
       delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }, { left: "$", right: "$", display: false }],
