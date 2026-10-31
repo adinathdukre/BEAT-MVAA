@@ -1,0 +1,55 @@
+{
+ "key": "BEAT",
+ "title": "BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation",
+ "abstract": "Mitral valve repair is planned and guided by three very different images of the same anatomy: preoperative cardiac computed tomography (CT), intraoperative 3D transesophageal echocardiography (3D TEE), and the surgeon's view of the valve. Delineating the valve consistently in all three is the perception layer on which a patient-specific valve model rests, yet annotations are scarce and the gap between modalities is wide. We introduce \\textbf{BEAT}, a boundary-aware efficient anatomy-transfer recipe instantiated once per modality: a CT-pretrained STU-Net for the volumetric tasks and an ImageNet-pretrained EfficientNet for video, train-only distance and topology losses, augmentation matched to the physical shift, and every expensive component confined to training, leaving a single-pass model that segments a CT case in 0.34~s with 1.4~GiB. On the MICCAI 2026 MVAA challenge, BEAT achieves Dice 0.85 on CT, 0.83 on 3D TEE, and 0.77 on surgical video. Ablations read against fold and seed variation show what carries each modality: transfer on video, physics-matched augmentation on ultrasound, and a post-processing rule that never erases a weak prediction.\n\\keywords{Mitral valve \\and Multimodal segmentation \\and Domain generalization \\and Semi-supervised learning.}",
+ "macros": "",
+ "figures": [
+  {
+   "files": [
+    "figures/mvaa.png"
+   ],
+   "caption": "The BEAT recipe and its three instantiations. A pretrained backbone (STU-Net-B for the\nvolumetric tasks, EfficientNet-B4 with a UNet++ decoder for video) is supervised with train-only\nboundary losses under augmentation matched to each modality. Every dashed block is removed for\ndeployment.}\n\\label{fig:overview",
+   "label": "fig:overview",
+   "resolved": [
+    "mvaa.png"
+   ]
+  },
+  {
+   "files": [
+    "figures/beat_results.png"
+   ],
+   "caption": "(a) The score of Table~\\ref{tab:main} split into the three terms of Eq.~\\ref{eq:q} for\neach task, showing that the boundary pair, not region accuracy, separates them. (b) Task 1 per-case\nout-of-fold results over the 27 labeled CT volumes on the deployed inference path.}\n\\label{fig:results",
+   "label": "fig:results",
+   "resolved": [
+    "beat_results.png"
+   ]
+  }
+ ],
+ "tables": [
+  {
+   "latex": "[t]\n\\centering\n\\caption{BEAT validation metrics and deployed-model cost. Accuracy is the validation path (three\nmodels per task, folds on Task 1 and seeds on Tasks 2 and 3, with mirror TTA on the volumetric\ntasks); cost is the deployed single-pass bfloat16 network, as multiply-accumulates per $128^3$\nwindow ($448{\\times}800$ frame on Task 3) with mean wall clock and peak memory per case on one RTX\nPRO 6000. Hausdorff is the maximum bidirectional surface distance and Task 2 averages its two\nclasses. Tasks 1 and 2 share a backbone, so they differ in wall clock only because a TEE case tiles\ninto more windows.}\n\\label{tab:main}\n\\resizebox{\\textwidth}{!}{\n\\begin{tabular}{lccc@{\\hskip 7pt}cccc}\n\\toprule\n& \\multicolumn{3}{c}{Accuracy} & \\multicolumn{4}{c}{Deployed cost} \\\\\n\\cmidrule(lr){2-4}\\cmidrule(lr){5-8}\nTask & Dice $\\uparrow$ & max HD (mm) $\\downarrow$ & ASD (mm) $\\downarrow$ & Par.\\ (M) & GMAC & s & GiB \\\\\n\\midrule\nTask 1 (cardiac CT)      & 0.850 & 4.67  & 0.29  & 58.2 & 501 & 0.34 & 1.4 \\\\\nTask 2 (3D TEE)          & 0.833 & 10.81 & 0.63  & 58.2 & 501 & 1.84 & 1.7 \\\\\nTask 3 (surgical video)  & 0.772 & 77.90 & 13.91 & 20.8 & 43  & 0.10 & 0.4 \\\\\n\\bottomrule\n\\end{tabular}}",
+   "label": "tab:main"
+  },
+  {
+   "latex": "[!tb]\n\\centering\n\\caption{Ablations, one component per row. The Task 1 ladder is out-of-fold over the 27 labeled CT\nvolumes; in the single-removal block only the video initialization separates from its noise floor.\nThe Task 3 post-processing rows are a single seed and so sit just below the three-seed entry of\nTable~\\ref{tab:main}.}\n\\label{tab:ablation}\n{\\scriptsize\\setlength{\\tabcolsep}{2pt}\\renewcommand{\\arraystretch}{0.90}\n\\begin{tabular}{@{}>{\\raggedright\\arraybackslash}p{0.60\\textwidth}ccc@{}}\n\\toprule\nConfiguration & Dice $\\uparrow$ & max HD (mm) $\\downarrow$ & ASD (mm) $\\downarrow$ \\\\\n\\midrule\n\\multicolumn{4}{@{}l}{\\textit{Task 1: cardiac CT, out-of-fold}}\\\\\nBaseline (wide-window input) & 0.854 & 4.50 & 0.29 \\\\\n\\quad + matched normalization and self-training & 0.859 & 4.20 & 0.27 \\\\\n\\quad + eight-way axis-mirror TTA & 0.863 & 4.10 & 0.25 \\\\\n\\quad + pseudo pool grown to 500, full-anneal folds & \\textbf{0.868} & \\textbf{4.01} & \\textbf{0.24} \\\\\n\\midrule\n\\multicolumn{4}{@{}l}{\\textit{Task 2: 3D TEE, validation platform}}\\\\\nOver-stacked boundary + frequency loss & 0.768 & 13.10 & 0.98 \\\\\nSimplified (DiceCE + GSL + clDice + Skeleton) & \\textbf{0.833} & \\textbf{10.81} & \\textbf{0.63} \\\\\n\\midrule\n\\multicolumn{4}{@{}l}{\\textit{Single-removal arms: one model per arm against its own anchor, deployed path}}\\\\\nTask 1 anchor: cardiac CT, fold 0, 9 held-out cases & 0.852 & 4.18 & 0.28 \\\\\n\\quad random init instead of CT pretraining & 0.856 & 4.51 & 0.28 \\\\\n\\quad DiceCE only, no boundary or topology term & 0.855 & 4.52 & 0.28 \\\\\nTask 2 anchor: 3D TEE, 20 held-out cases & 0.800 & 10.98 & 0.71 \\\\\n\\quad random init instead of CT pretraining & 0.799 & 10.74 & 0.72 \\\\\n\\quad DiceCE only, no boundary or topology term & 0.805 & 10.01 & 0.67 \\\\\n\\quad no speckle augmentation & 0.780 & 11.21 & 0.87 \\\\\nTask 3 anchor: surgical video, held-out surgery & 0.873 & 61.74 & 10.94 \\\\\n\\quad random init instead of ImageNet & 0.462 & 526.94 & 443.86 \\\\\n\\quad no boundary or topology term & 0.871 & 59.47 & 10.64 \\\\\n\\midrule\n\\multicolumn{4}{@{}l}{\\textit{Task 3: post-processing on the validation platform, single seed}}\\\\\nThreshold + component filter & 0.767 & 89.38 & 16.58 \\\\\nThreshold only & \\textbf{0.770} & \\textbf{78.57} & \\textbf{14.70} \\\\\n\\bottomrule\n\\end{tabular}}",
+   "label": "tab:ablation"
+  }
+ ],
+ "sections": [
+  "s:Introduction",
+  "s:Method",
+  "s:The BEAT recipe",
+  "s:Task 1: cardiac CT, semi-supervised",
+  "s:Task 2: 3D TEE ultrasound, fully supervised",
+  "s:Task 3: surgical video, semi-supervised",
+  "s:Experiments",
+  "s:Data and implementation",
+  "s:Results",
+  "s:Ablations",
+  "s:Conclusion"
+ ],
+ "figureFiles": [
+  "mvaa.png",
+  "beat_results.png"
+ ]
+}
