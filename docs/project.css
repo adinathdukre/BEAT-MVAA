@@ -2000,3 +2000,8 @@ pre.mermaid { background: var(--paper) !important; color: var(--ink) !important;
 .small-section h3 { font-size: 15px; letter-spacing: .02em; color: var(--teal-dark); }
 #code details, #more-results details { margin: 12px 0; }
 @media (max-width: 680px) { .paper-figure, .paper-table-figure { padding: 14px; margin-top: 28px; } .abstract-text p { text-align: left; } }
+.results-summary { margin: 8px 0 6px; }
+.results-summary .table-scroll { margin: 14px 0; }
+.paper-results-title { margin: 34px 0 0; font-size: 20px; }
+.abstract-text ul { padding-left: 20px; }
+.abstract-text li { line-height: 1.75; margin: 6px 0; }

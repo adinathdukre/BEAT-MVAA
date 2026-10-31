@@ -57,8 +57,7 @@
 </ul>
 <div class="callout callout-note"><strong>Note</strong><p>All boundary and topology terms are training-only losses, so the deployed networks are plain
 segmentation CNNs.</p></div></section>
-<section class="section container page-section results-wide" id="results"><div class="narrow"><p class="section-kicker">03 / RESULTS</p><h2>Results from the paper</h2><p class="section-intro">Tables and figures as they appear in the paper.</p></div><figure class="paper-table-figure"><figcaption><strong>Table 1.</strong> BEAT validation metrics and deployed-model cost. Accuracy is the validation path (three models per task, folds on Task 1 and seeds on Tasks 2 and 3, with mirror TTA on the volumetric tasks); cost is the deployed single-pass bfloat16 network, as multiply-accumulates per <span class="math inline">128^3</span> window (<span class="math inline">448{\times}800</span> frame on Task 3) with mean wall clock and peak memory per case on one RTX PRO 6000. Hausdorff is the maximum bidirectional surface distance and Task 2 averages its two classes. Tasks 1 and 2 share a backbone, so they differ in wall clock only because a TEE case tiles into more windows.</figcaption><img src="assets/paper/tab1.png" alt="Table 1" loading="lazy" style="width:min(100%,900px)" /></figure><figure class="paper-table-figure"><figcaption><strong>Table 2.</strong> Ablations, one component per row. The Task 1 ladder is out-of-fold over the 27 labeled CT volumes; in the single-removal block only the video initialization separates from its noise floor. The Task 3 post-processing rows are a single seed and so sit just below the three-seed entry of Table 1.</figcaption><img src="assets/paper/tab2.png" alt="Table 2" loading="lazy" style="width:min(100%,849px)" /></figure><figure class="paper-figure"><img src="assets/paper/fig2.png" alt="Figure 2" loading="lazy" /><figcaption><strong>Figure 2.</strong> (a) The score of Table 1 split into the three terms of for each task, showing that the boundary pair, not region accuracy, separates them. (b) Task 1 per-case out-of-fold results over the 27 labeled CT volumes on the deployed inference path.</figcaption></figure></section>
-<section class="section container narrow page-section" id="more-results"><p class="section-kicker">04 / MORE RESULTS</p><h2>More from the code release</h2><details><summary>Results (validation)</summary><div align="center">
+<section class="section container page-section results-wide" id="results"><div class="narrow"><p class="section-kicker">03 / RESULTS</p><h2>Results</h2><div class="results-summary"><div align="center">
 <div class="table-scroll" tabindex="0"><table class="paper-table">
 <thead>
 <tr>
@@ -89,13 +88,8 @@ segmentation CNNs.</p></div></section>
 </tr>
 </tbody>
 </table></div>
-</div>
-<p align="center">
-<img src="https://raw.githubusercontent.com/adinathdukre/BEAT-MVAA/main/docs/assets/fig2_results.png" alt="Metric terms per task and Task 1 per-case scatter" width="100%"/>
-<br/>
-<em><b>Fig. 2.</b> (a) The validation results split into the terms of the challenge score. (b) Task 1 per-case out-of-fold Dice against max HD, with marker area growing with ASD.</em>
-</p></details></section>
-<section class="section container narrow page-section" id="code"><p class="section-kicker">05 / CODE</p><h2>Code and usage</h2><details open><summary>Installation</summary><pre><code class="language-bash">git clone https://github.com/adinathdukre/BEAT-MVAA.git
+</div></div><h3 class="paper-results-title">From the paper</h3></div><figure class="paper-table-figure"><figcaption><strong>Table 1.</strong> BEAT validation metrics and deployed-model cost. Accuracy is the validation path (three models per task, folds on Task 1 and seeds on Tasks 2 and 3, with mirror TTA on the volumetric tasks); cost is the deployed single-pass bfloat16 network, as multiply-accumulates per <span class="math inline">128^3</span> window (<span class="math inline">448{\times}800</span> frame on Task 3) with mean wall clock and peak memory per case on one RTX PRO 6000. Hausdorff is the maximum bidirectional surface distance and Task 2 averages its two classes. Tasks 1 and 2 share a backbone, so they differ in wall clock only because a TEE case tiles into more windows.</figcaption><img src="assets/paper/tab1.png" alt="Table 1" loading="lazy" style="width:min(100%,1120px)" /></figure><figure class="paper-table-figure"><figcaption><strong>Table 2.</strong> Ablations, one component per row. The Task 1 ladder is out-of-fold over the 27 labeled CT volumes; in the single-removal block only the video initialization separates from its noise floor. The Task 3 post-processing rows are a single seed and so sit just below the three-seed entry of Table 1.</figcaption><img src="assets/paper/tab2.png" alt="Table 2" loading="lazy" style="width:min(100%,1056px)" /></figure><figure class="paper-figure"><img src="assets/paper/fig2.png" alt="Figure 2" loading="lazy" /><figcaption><strong>Figure 2.</strong> (a) The score of Table 1 split into the three terms of for each task, showing that the boundary pair, not region accuracy, separates them. (b) Task 1 per-case out-of-fold results over the 27 labeled CT volumes on the deployed inference path.</figcaption></figure></section>
+<section class="section container narrow page-section" id="code"><p class="section-kicker">04 / CODE</p><h2>Code and usage</h2><details open><summary>Installation</summary><pre><code class="language-bash">git clone https://github.com/adinathdukre/BEAT-MVAA.git
 cd BEAT-MVAA
 conda create -n beat python=3.10 -y
 conda activate beat
@@ -185,15 +179,8 @@ torchrun --standalone --nproc_per_node=4 -m task1.train_student --exp L_f0 \
 python -m task3.train_student --exp guard_e37 seed=42 train.epochs=40 data.holdout_video=675A
 </code></pre>
 </details>
-<p>Each run writes <code>config.yaml</code>, logs and checkpoints to <code>$MVAA_RUNS_DIR/&lt;task&gt;/&lt;exp&gt;_&lt;git-sha&gt;/</code>. Copy the selected <code>best.pt</code> files into <code>weights/&lt;task&gt;/</code> to deploy.</p></details><details><summary>Repository Structure</summary><pre><code class="language-text">BEAT-MVAA/
-├── common/     # losses, metrics, post-processing, sliding window, I/O, model registry
-├── task1/      # CT: teacher, pseudo-labels, student, predict
-├── task2/      # 3D TEE: train, predict
-├── task3/      # video: semi-supervised student, predict
-├── scripts/    # ensemble inference (run_inference.py) and per-task ensemble predictors
-└── configs/    # OmegaConf YAML configs (paths, common, task1-3)
-</code></pre></details></section>
-<section class="section citation-section" id="citation"><div class="container narrow"><p class="section-kicker">06 / CITATION</p><div class="citation-heading"><h2>BibTeX</h2><button class="copy-button light-copy" data-copy="bibtex" type="button">Copy BibTeX</button></div><pre class="bibtex"><code id="bibtex">@inproceedings{regebeat,
+<p>Each run writes <code>config.yaml</code>, logs and checkpoints to <code>$MVAA_RUNS_DIR/&lt;task&gt;/&lt;exp&gt;_&lt;git-sha&gt;/</code>. Copy the selected <code>best.pt</code> files into <code>weights/&lt;task&gt;/</code> to deploy.</p></details></section>
+<section class="section citation-section" id="citation"><div class="container narrow"><p class="section-kicker">05 / CITATION</p><div class="citation-heading"><h2>BibTeX</h2><button class="copy-button light-copy" data-copy="bibtex" type="button">Copy BibTeX</button></div><pre class="bibtex"><code id="bibtex">@inproceedings{regebeat,
   title={BEAT: Boundary-aware Efficient Anatomy-Transfer for Multimodal Mitral Valve Segmentation},
   author={Rege, Atharva Atul and Dukre, Adinath Madhavrao and Shah, Sarth Santosh and Razzak, Imran},
   booktitle={The 1st MICCAI Workshop on Medical World Models},
