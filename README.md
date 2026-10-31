@@ -11,13 +11,14 @@ style="margin-bottom:-10px; display:block;" />
 </a>
 
 [![Paper](https://img.shields.io/badge/Paper-OpenReview-8C1B13?style=for-the-badge)](https://openreview.net/forum?id=yRMVmTyr3S)
+[![Project Page](https://img.shields.io/badge/Project-Page-147B82?style=for-the-badge&logo=googlechrome&logoColor=white)](https://adinathdukre.github.io/BEAT-MVAA/)
 [![MVAA 2026](https://img.shields.io/badge/MVAA_2026-MICCAI_Challenge-147B82?style=for-the-badge)](https://www.codabench.org/competitions/15662/)
 [![MWM 2026](https://img.shields.io/badge/MICCAI_2026-MWM_Workshop-8A2BE2?style=for-the-badge)](https://openreview.net/forum?id=yRMVmTyr3S)
 [![Weights](https://img.shields.io/badge/HF-Weights-AECBFA?style=for-the-badge&logo=huggingface&logoColor=FFCC00&labelColor=grey)](https://huggingface.co/adidukre/BEAT-MVAA)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Visitors](https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fgithub.com%2Fadinathdukre%2FBEAT-MVAA&label=Views&countColor=%23147b82&style=for-the-badge)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fadinathdukre%2FBEAT-MVAA)
 
-<h3>📄 <a href="https://openreview.net/forum?id=yRMVmTyr3S">Paper</a> &nbsp;|&nbsp; 🤗 <a href="https://huggingface.co/adidukre/BEAT-MVAA">Weights</a> &nbsp;|&nbsp; 🧠 <a href="#-method">Method</a> &nbsp;|&nbsp; ⚡ <a href="#-inference">Inference</a></h3>
+<h3>📄 <a href="https://openreview.net/forum?id=yRMVmTyr3S">Paper</a> &nbsp;|&nbsp; 🌐 <a href="https://adinathdukre.github.io/BEAT-MVAA/">Project Page</a> &nbsp;|&nbsp; 🤗 <a href="https://huggingface.co/adidukre/BEAT-MVAA">Weights</a> &nbsp;|&nbsp; 🧠 <a href="#-method">Method</a> &nbsp;|&nbsp; ⚡ <a href="#-inference">Inference</a></h3>
 
 **Atharva Atul Rege, [Adinath Madhavrao Dukre](https://github.com/adinathdukre), Sarth Santosh Shah, Imran Razzak**
 
